@@ -1,8 +1,14 @@
 package com.example.articapp.data.network
 
-import com.example.articapp.data.dto.Response
+data class ArtSearchResponse (
+    val config: Config,
+    val data: List<Data>,
+)
 
-class ArtsSearchResponse(val data: List<Data>): Response()
+data class Config(
+    val iiif_url: String,
+    val website_url: String
+)
 
 data class Data(
     val _score: Double,
@@ -21,3 +27,5 @@ data class Thumbnail(
     val lqip: String,
     val width: Int
 )
+
+

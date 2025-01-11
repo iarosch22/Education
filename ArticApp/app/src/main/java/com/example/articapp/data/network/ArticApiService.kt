@@ -6,7 +6,7 @@ import retrofit2.http.Query
 
 interface ArticApiService {
 
-    @GET("api/v1/artworks/search")
+    @GET("/artworks/search")
     suspend fun searchArtworks(@Query("q") query: String): ArtsSearchResponse
 
 }
