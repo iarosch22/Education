@@ -2,7 +2,7 @@ package com.example.articapp.domain.models
 
 data class ArtWork(
     val id: Int,
-    val _score: Double,
+    val score: Double,
     val api_link: String,
     val api_model: String,
     val imageUrl: String,

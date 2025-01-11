@@ -1,9 +1,9 @@
-package com.example.articapp.data.network
+package com.example.articapp.data.dto
 
-data class ArtSearchResponse (
+data class ArticSearchResponse (
     val config: Config,
     val data: List<Data>,
-)
+): Response()
 
 data class Config(
     val iiif_url: String,

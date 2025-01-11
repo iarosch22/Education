@@ -2,6 +2,7 @@ package com.example.articapp.data.network
 
 import android.content.Context
 import com.example.articapp.data.NetworkClient
+import com.example.articapp.data.dto.ArticSearchRequest
 import com.example.articapp.data.dto.Response
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -21,14 +22,14 @@ class RetrofitNetworkClient(private val context: Context): NetworkClient {
 
     override suspend fun doRequest(dto: Any): Response {
 
-        if (dto !is ArtsSearchRequest) {
+        if (dto !is ArticSearchRequest) {
             return Response().apply { resultCode = 400 }
         }
 
         return withContext(Dispatchers.IO) {
             try {
                 val response = when(dto) {
-                    is ArtsSearchRequest -> arcticApiService.searchArtworks(dto.query)
+                    is ArticSearchRequest -> arcticApiService.searchArtworks(dto.query)
                     else -> Response().apply { resultCode = -1 }
                 }
                 response.apply { resultCode = 200 }
