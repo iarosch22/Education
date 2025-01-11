@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">ArticApp</string>
+    <string name="app_btn_list">Список картин</string>
+    <string name="app_btn_search">Найти картину</string>
 </resources>
