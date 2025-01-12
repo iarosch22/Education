@@ -1,6 +1,7 @@
 package com.example.articapp.data.network
 
 import android.content.Context
+import android.util.Log
 import com.example.articapp.data.NetworkClient
 import com.example.articapp.data.dto.ArticSearchRequest
 import com.example.articapp.data.dto.Response
@@ -9,7 +10,7 @@ import kotlinx.coroutines.withContext
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class RetrofitNetworkClient(private val context: Context): NetworkClient {
+class RetrofitNetworkClient(): NetworkClient {
 
     private val articBaseUrl = "https://api.artic.edu/api/v1/"
 
@@ -29,7 +30,9 @@ class RetrofitNetworkClient(private val context: Context): NetworkClient {
         return withContext(Dispatchers.IO) {
             try {
                 val response = when(dto) {
-                    is ArticSearchRequest -> arcticApiService.searchArtworks(dto.query)
+                    is ArticSearchRequest -> {
+                        arcticApiService.searchArtworks(dto.query)
+                    }
                     else -> Response().apply { resultCode = -1 }
                 }
                 response.apply { resultCode = 200 }

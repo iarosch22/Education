@@ -15,7 +15,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@id/btnArtsSearch"
-        android:text="@string/app_btn_list"/>
+        android:text="@string/app_btn_to_list"/>
 
     <Button
         android:id="@+id/btnArtsSearch"
@@ -25,6 +25,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/btnArtsList"
-        android:text="@string/app_btn_search"/>
+        android:text="@string/app_btn_to_search"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
