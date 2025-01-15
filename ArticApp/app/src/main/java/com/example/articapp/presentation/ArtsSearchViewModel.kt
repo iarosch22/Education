@@ -1,16 +1,13 @@
 package com.example.articapp.presentation
 
-import android.util.Log
-import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.articapp.domain.api.ArticInteractor
 import com.example.articapp.domain.models.ArtWork
 import com.example.articapp.ui.models.ArticState
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class ArtsSearchViewModel(private val articInteractor: ArticInteractor): ViewModel() {
@@ -44,6 +41,18 @@ class ArtsSearchViewModel(private val articInteractor: ArticInteractor): ViewMod
 
     private fun renderState(state: ArticState) {
         stateLiveData.postValue(state)
+    }
+
+    companion object {
+        fun getViewModelFactory(articInteractor: ArticInteractor): ViewModelProvider.Factory =
+            object : ViewModelProvider.Factory {
+                @Suppress("UNCHECKED_CAST")
+                override fun <T : ViewModel> create(
+                    modelClass: Class<T>
+                ): T {
+                    return ArtsSearchViewModel(articInteractor) as T
+                }
+            }
     }
 
 }
