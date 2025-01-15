@@ -5,6 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.initializer
+import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.articapp.domain.api.ArticInteractor
 import com.example.articapp.domain.models.ArtWork
 import com.example.articapp.ui.models.ArticState
@@ -44,15 +46,11 @@ class ArtsSearchViewModel(private val articInteractor: ArticInteractor): ViewMod
     }
 
     companion object {
-        fun getViewModelFactory(articInteractor: ArticInteractor): ViewModelProvider.Factory =
-            object : ViewModelProvider.Factory {
-                @Suppress("UNCHECKED_CAST")
-                override fun <T : ViewModel> create(
-                    modelClass: Class<T>
-                ): T {
-                    return ArtsSearchViewModel(articInteractor) as T
+        fun getViewModelFactory(articInteractor: ArticInteractor): ViewModelProvider.Factory = viewModelFactory {
+                initializer {
+                    ArtsSearchViewModel(articInteractor)
                 }
-            }
+        }
     }
 
 }
