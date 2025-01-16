@@ -10,6 +10,7 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.articapp.domain.api.ArticInteractor
 import com.example.articapp.domain.models.ArtWork
 import com.example.articapp.ui.models.ArticState
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class ArtsSearchViewModel(private val articInteractor: ArticInteractor): ViewModel() {

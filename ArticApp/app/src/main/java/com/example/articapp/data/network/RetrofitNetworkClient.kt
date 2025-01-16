@@ -10,7 +10,7 @@ import kotlinx.coroutines.withContext
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class RetrofitNetworkClient(): NetworkClient {
+class RetrofitNetworkClient: NetworkClient<ArticSearchRequest> {
 
     private val articBaseUrl = "https://api.artic.edu/api/v1/"
 
@@ -21,25 +21,12 @@ class RetrofitNetworkClient(): NetworkClient {
 
     private val arcticApiService = retrofit.create(ArticApiService::class.java)
 
-    override suspend fun doRequest(dto: Any): Response {
+    override suspend fun doRequest(dto: ArticSearchRequest): Response {
 
-        if (dto !is ArticSearchRequest) {
-            return Response().apply { resultCode = 400 }
-        }
-
-        return withContext(Dispatchers.IO) {
-            try {
-                val response = when(dto) {
-                    is ArticSearchRequest -> {
-                        arcticApiService.searchArtworks(dto.query)
-                    }
-                    else -> Response().apply { resultCode = -1 }
-                }
-                response.apply { resultCode = 200 }
+        return try {
+                arcticApiService.searchArtworks(dto.query).apply {  resultCode = 200 }
             } catch (e: Throwable) {
                 Response().apply { resultCode = 500 }
             }
         }
-    }
-
 }
