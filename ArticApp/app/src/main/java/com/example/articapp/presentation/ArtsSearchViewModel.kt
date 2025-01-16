@@ -8,9 +8,8 @@ import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.articapp.domain.api.ArticInteractor
-import com.example.articapp.domain.models.ArtWork
+import com.example.articapp.domain.models.ArtWorkEntity
 import com.example.articapp.ui.models.ArticState
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class ArtsSearchViewModel(private val articInteractor: ArticInteractor): ViewModel() {
@@ -30,8 +29,8 @@ class ArtsSearchViewModel(private val articInteractor: ArticInteractor): ViewMod
         }
     }
 
-    private fun processResult(foundArtworks: List<ArtWork>?, errorMessage: String?) {
-        val artworks = mutableListOf<ArtWork>()
+    private fun processResult(foundArtworks: List<ArtWorkEntity>?, errorMessage: String?) {
+        val artworks = mutableListOf<ArtWorkEntity>()
 
         if (foundArtworks != null) artworks.addAll(foundArtworks)
 

@@ -4,7 +4,7 @@ import com.example.articapp.data.NetworkClient
 import com.example.articapp.data.dto.ArticSearchRequest
 import com.example.articapp.data.dto.ArticSearchResponse
 import com.example.articapp.domain.api.ArticRepository
-import com.example.articapp.domain.models.ArtWork
+import com.example.articapp.domain.models.ArtWorkEntity
 import com.example.articapp.utils.Resource
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -13,7 +13,7 @@ import kotlinx.coroutines.withContext
 
 class ArticRepositoryImpl(private val networkClient: NetworkClient<ArticSearchRequest>): ArticRepository {
 
-    override fun searchArtworks(query: String): Flow<Resource<List<ArtWork>>> = flow {
+    override fun searchArtworks(query: String): Flow<Resource<List<ArtWorkEntity>>> = flow {
         val response = networkClient.doRequest(ArticSearchRequest(query))
         withContext(Dispatchers.IO) {
             when(response.resultCode) {
@@ -22,13 +22,13 @@ class ArticRepositoryImpl(private val networkClient: NetworkClient<ArticSearchRe
                     with(response as ArticSearchResponse) {
                         val imageUrl = config.imageUrl
                         val data = data.map {
-                            ArtWork(
+                            ArtWorkEntity(
                                 id = it.id,
                                 score = it.score,
-                                api_link = it.apiLink,
-                                api_model = it.apiModel,
+                                apiLink = it.apiLink,
+                                apiModel = it.apiModel,
                                 imageUrl = "${imageUrl}/${it.id}/full/843,/0/default.jpg",
-                                alt_text = it.thumbnail.altText,
+                                altText = it.thumbnail.altText,
                                 previewImage = it.thumbnail.previewImage,
                             )
                         }
