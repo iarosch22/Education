@@ -10,10 +10,12 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.example.articapp.R
 import com.example.articapp.databinding.FragmentArtssearchBinding
 import com.example.articapp.presentation.ArtsSearchViewModel
 import com.example.articapp.ui.models.ArticState
 import com.example.articapp.utils.Creator
+import com.example.articapp.utils.ErrorType
 
 class ArtsSearchFragment: Fragment() {
 
@@ -40,17 +42,21 @@ class ArtsSearchFragment: Fragment() {
                 is ArticState.Content -> {
                     Toast.makeText(requireContext(), "${it.artworks.first()}", Toast.LENGTH_SHORT).show()
                 }
-                is ArticState.Empty -> {
-                    Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
-                }
                 is ArticState.Error -> {
-                    Toast.makeText(requireContext(), it.errorMessage, Toast.LENGTH_SHORT).show()
+                    when(it.errorType) {
+                        ErrorType.NETWORK_ERROR -> Toast.makeText(requireContext(),
+                            getString(R.string.app_error_network), Toast.LENGTH_SHORT).show()
+                        ErrorType.DATABASE_ERROR -> Toast.makeText(requireContext(),
+                            getString(R.string.app_error_database), Toast.LENGTH_SHORT).show()
+                        ErrorType.UNKNOWN_ERROR -> Toast.makeText(requireContext(),
+                            getString(R.string.app_error_unknown), Toast.LENGTH_SHORT).show()
+                    }
                 }
             }
         }
 
         binding.btnArtsSearch.setOnClickListener {
-            if (binding.queryInput.text.isNotEmpty()) viewModel.searchRequest(binding.queryInput.text.toString())
+            viewModel.searchRequest(binding.queryInput.text.toString())
         }
     }
 
