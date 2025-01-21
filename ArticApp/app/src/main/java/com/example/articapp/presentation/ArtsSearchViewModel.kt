@@ -51,12 +51,4 @@ class ArtsSearchViewModel(private val articInteractor: ArticInteractor): ViewMod
         stateLiveData.postValue(state)
     }
 
-    companion object {
-        fun getViewModelFactory(articInteractor: ArticInteractor): ViewModelProvider.Factory = viewModelFactory {
-                initializer {
-                    ArtsSearchViewModel(articInteractor)
-                }
-        }
-    }
-
 }

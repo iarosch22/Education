@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.get
 import com.example.articapp.R
 import com.example.articapp.databinding.FragmentArtssearchBinding
 import com.example.articapp.presentation.ArtsSearchViewModel
@@ -36,7 +37,7 @@ class ArtsSearchFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel = ViewModelProvider(this, ArtsSearchViewModel.getViewModelFactory(Creator.getArticInteractor()))[ArtsSearchViewModel::class.java]
+        viewModel = ViewModelProvider(this)[ArtsSearchViewModel::class.java]
         viewModel.observeState().observe(viewLifecycleOwner) {
             when(it) {
                 is ArticState.Content -> {
