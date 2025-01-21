@@ -1,16 +1,14 @@
 package com.example.articapp.data.network
 
-import android.content.Context
-import android.util.Log
 import com.example.articapp.data.NetworkClient
 import com.example.articapp.data.dto.ArticSearchRequest
-import com.example.articapp.data.dto.Response
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
+import com.example.articapp.data.dto.ArticSearchResponse
+import okhttp3.ResponseBody
+import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class RetrofitNetworkClient: NetworkClient<ArticSearchRequest> {
+class ArticRetrofitNetworkClient: NetworkClient<ArticSearchRequest> {
 
     private val articBaseUrl = "https://api.artic.edu/api/v1/"
 
@@ -21,12 +19,12 @@ class RetrofitNetworkClient: NetworkClient<ArticSearchRequest> {
 
     private val arcticApiService = retrofit.create(ArticApiService::class.java)
 
-    override suspend fun doRequest(dto: ArticSearchRequest): Response {
+    override suspend fun doRequest(dto: ArticSearchRequest): Response<ArticSearchResponse> {
 
         return try {
-                arcticApiService.searchArtworks(dto.query).apply {  resultCode = 200 }
+                arcticApiService.searchArtworks(dto.query)
             } catch (e: Throwable) {
-                Response().apply { resultCode = 500 }
+                Response.error(500, ResponseBody.create(null, "Internal Error"))
             }
         }
 }

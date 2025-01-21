@@ -43,7 +43,6 @@ class ArtsSearchViewModel(private val articInteractor: ArticInteractor): ViewMod
 
         when {
             errorType != null -> renderState(ArticState.Error(errorType = errorType))
-            artworks.isEmpty() -> renderState(ArticState.Error(errorType = ErrorType.DATABASE_ERROR))
             else -> renderState(ArticState.Content(artworks = artworks))
         }
     }

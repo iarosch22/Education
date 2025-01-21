@@ -1,4 +1,6 @@
-package com.example.articapp.utils
+package com.example.articapp.data.models
+
+import com.example.articapp.utils.ErrorType
 
 sealed class Resource<T> {
 
