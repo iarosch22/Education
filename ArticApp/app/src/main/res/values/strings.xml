@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">ArticApp</string>
+    <string name="app_btn_to_list">К картинам</string>
+    <string name="app_btn_to_search">К поиску</string>
+    <string name="app_btn_search">Найти</string>
+    <string name="app_error_network">Ошибка с сетью</string>
+    <string name="app_error_database">Ничего не найдено</string>
+    <string name="app_error_unknown">Неизвестная ошибка. Проверьте запрос</string>
 </resources>
