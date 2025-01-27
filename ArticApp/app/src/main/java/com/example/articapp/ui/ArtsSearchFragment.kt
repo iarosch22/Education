@@ -37,7 +37,7 @@ class ArtsSearchFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel = ViewModelProvider(this)[ArtsSearchViewModel::class.java]
+        viewModel = ViewModelProvider(this, ArtsSearchViewModel.getViewModelFactory(Creator.getArticInteractor()))[ArtsSearchViewModel::class.java]
         viewModel.observeState().observe(viewLifecycleOwner) {
             when(it) {
                 is ArticState.Content -> {

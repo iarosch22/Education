@@ -10,12 +10,7 @@ import kotlinx.coroutines.flow.map
 class ArticInteractorImpl(private val repository: ArticRepository): ArticInteractor {
 
     override fun searchArtworks(query: String): Flow<SearchResultsEntity> {
-        return repository.searchArtworks(query).map { result ->
-            when(result) {
-                is Resource.Error -> SearchResultsEntity(null, result.errorType)
-                is Resource.Success -> SearchResultsEntity(result.data, null)
-            }
-        }
+        return repository.searchArtworks(query)
     }
 
 }

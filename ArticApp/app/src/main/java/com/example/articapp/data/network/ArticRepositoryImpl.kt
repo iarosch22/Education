@@ -7,12 +7,13 @@ import com.example.articapp.domain.api.ArticRepository
 import com.example.articapp.domain.models.ArtWorkEntity
 import com.example.articapp.utils.ErrorType
 import com.example.articapp.data.models.Resource
+import com.example.articapp.domain.models.SearchResultsEntity
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
 class ArticRepositoryImpl(private val networkClient: NetworkClient<ArticSearchRequest>): ArticRepository {
 
-    override fun searchArtworks(query: String): Flow<Resource<List<ArtWorkEntity>>> = flow {
+    override fun searchArtworks(query: String): Flow<SearchResultsEntity> = flow {
         val response = networkClient.doRequest(ArticSearchRequest(query))
         if (response.isSuccessful) {
             val body = response.body()
@@ -30,12 +31,12 @@ class ArticRepositoryImpl(private val networkClient: NetworkClient<ArticSearchRe
                         previewImage = it.thumbnail.previewImage,
                     )
                 }
-                emit(Resource.Success(data))
+                emit(SearchResultsEntity(data, null))
             } else {
-                emit(Resource.Error(errorType = ErrorType.DATABASE_ERROR))
+                emit(SearchResultsEntity(null ,errorType = ErrorType.DATABASE_ERROR))
             }
         } else {
-            emit(Resource.Error(errorType = ErrorType.NETWORK_ERROR))
+            emit(SearchResultsEntity(null, errorType = ErrorType.NETWORK_ERROR))
         }
     }
 }
