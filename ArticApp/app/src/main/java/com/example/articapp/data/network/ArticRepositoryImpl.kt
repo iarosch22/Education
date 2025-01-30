@@ -2,16 +2,19 @@ package com.example.articapp.data.network
 
 import com.example.articapp.data.NetworkClient
 import com.example.articapp.data.dto.ArticSearchRequest
-import com.example.articapp.data.dto.ArticSearchResponse
 import com.example.articapp.domain.api.ArticRepository
 import com.example.articapp.domain.models.ArtWorkEntity
-import com.example.articapp.utils.ErrorType
-import com.example.articapp.data.models.Resource
 import com.example.articapp.domain.models.SearchResultsEntity
+import com.example.articapp.utils.ErrorType
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class ArticRepositoryImpl(private val networkClient: NetworkClient<ArticSearchRequest>): ArticRepository {
+@Singleton
+class ArticRepositoryImpl @Inject constructor(
+    private val networkClient: NetworkClient<ArticSearchRequest>
+): ArticRepository {
 
     override fun searchArtworks(query: String): Flow<SearchResultsEntity> = flow {
         val response = networkClient.doRequest(ArticSearchRequest(query))

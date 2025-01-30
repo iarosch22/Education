@@ -7,8 +7,11 @@ import okhttp3.ResponseBody
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class ArticRetrofitNetworkClient: NetworkClient<ArticSearchRequest> {
+@Singleton
+class ArticRetrofitNetworkClient @Inject constructor(): NetworkClient<ArticSearchRequest> {
 
     private val articBaseUrl = "https://api.artic.edu/api/v1/"
 

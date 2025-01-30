@@ -1,29 +1,26 @@
 package com.example.articapp.ui
 
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.get
+import androidx.fragment.app.viewModels
 import com.example.articapp.R
 import com.example.articapp.databinding.FragmentArtssearchBinding
 import com.example.articapp.presentation.ArtsSearchViewModel
 import com.example.articapp.ui.models.ArticState
-import com.example.articapp.utils.Creator
 import com.example.articapp.utils.ErrorType
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ArtsSearchFragment: Fragment() {
 
     private var _binding: FragmentArtssearchBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var viewModel: ArtsSearchViewModel
+    private val viewModel: ArtsSearchViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -37,7 +34,6 @@ class ArtsSearchFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel = ViewModelProvider(this, ArtsSearchViewModel.getViewModelFactory(Creator.getArticInteractor()))[ArtsSearchViewModel::class.java]
         viewModel.observeState().observe(viewLifecycleOwner) {
             when(it) {
                 is ArticState.Content -> {

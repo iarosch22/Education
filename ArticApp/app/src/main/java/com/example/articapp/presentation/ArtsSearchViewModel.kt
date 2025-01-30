@@ -1,6 +1,5 @@
 package com.example.articapp.presentation
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -12,10 +11,13 @@ import com.example.articapp.domain.api.ArticInteractor
 import com.example.articapp.domain.models.ArtWorkEntity
 import com.example.articapp.ui.models.ArticState
 import com.example.articapp.utils.ErrorType
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class ArtsSearchViewModel(private val articInteractor: ArticInteractor): ViewModel() {
+@HiltViewModel
+class ArtsSearchViewModel @Inject constructor(private val articInteractor: ArticInteractor): ViewModel() {
 
     private val stateLiveData = MutableLiveData<ArticState>()
     fun observeState(): LiveData<ArticState> = stateLiveData
@@ -49,16 +51,6 @@ class ArtsSearchViewModel(private val articInteractor: ArticInteractor): ViewMod
 
     private fun renderState(state: ArticState) {
         stateLiveData.postValue(state)
-    }
-
-    companion object {
-
-        fun getViewModelFactory(articInteractor: ArticInteractor): ViewModelProvider.Factory = viewModelFactory {
-            initializer {
-                ArtsSearchViewModel(articInteractor)
-            }
-        }
-
     }
 
 }
