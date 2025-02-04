@@ -1,11 +1,9 @@
 package com.example.articapp.di
 
 import com.example.articapp.data.NetworkClient
-import com.example.articapp.data.dto.ArticSearchRequest
 import com.example.articapp.data.network.ArticRetrofitNetworkClient
 import dagger.Binds
 import dagger.Module
-import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
@@ -16,6 +14,6 @@ abstract class NetworkClientModule {
 
     @Binds
     @Singleton
-    abstract fun provideArticRetrofitNetworkClient(networkClient: ArticRetrofitNetworkClient): NetworkClient<ArticSearchRequest>
+    abstract fun provideArticRetrofitNetworkClient(networkClient: ArticRetrofitNetworkClient): NetworkClient
 
 }

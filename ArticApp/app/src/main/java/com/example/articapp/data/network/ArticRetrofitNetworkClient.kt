@@ -2,16 +2,16 @@ package com.example.articapp.data.network
 
 import com.example.articapp.data.NetworkClient
 import com.example.articapp.data.dto.ArticSearchRequest
-import com.example.articapp.data.dto.ArticSearchResponse
+import com.example.articapp.data.dto.BaseArticRequest
+import com.example.articapp.data.dto.Response
 import okhttp3.ResponseBody
-import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class ArticRetrofitNetworkClient @Inject constructor(): NetworkClient<ArticSearchRequest> {
+class ArticRetrofitNetworkClient @Inject constructor(): NetworkClient {
 
     private val articBaseUrl = "https://api.artic.edu/api/v1/"
 
@@ -22,12 +22,17 @@ class ArticRetrofitNetworkClient @Inject constructor(): NetworkClient<ArticSearc
 
     private val arcticApiService = retrofit.create(ArticApiService::class.java)
 
-    override suspend fun doRequest(dto: ArticSearchRequest): Response<ArticSearchResponse> {
-
+    override suspend fun doRequest(dto: BaseArticRequest): Response {
         return try {
-                arcticApiService.searchArtworks(dto.query)
+                val response = when(dto) {
+                    is ArticSearchRequest -> arcticApiService.searchArtworks(dto.query)
+                    else -> {
+                        return Response().apply { resultCode = 400 }
+                    }
+                }
+                response.apply { resultCode = 200 }
             } catch (e: Throwable) {
-                Response.error(500, ResponseBody.create(null, "Internal Error"))
+                Response().apply { resultCode = 500 }
             }
         }
 }
