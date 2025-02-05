@@ -16,4 +16,8 @@ class ArticInteractorImpl @Inject constructor(
         return repository.searchArtworks(query)
     }
 
+    override fun getArtworks(page: Int, limit: Int): Flow<SearchResultsEntity> {
+        return repository.getArtworks(page = page, limit = limit)
+    }
+
 }

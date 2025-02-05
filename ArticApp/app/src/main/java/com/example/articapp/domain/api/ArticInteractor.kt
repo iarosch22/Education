@@ -7,4 +7,5 @@ interface ArticInteractor {
 
     fun searchArtworks(query: String): Flow<SearchResultsEntity>
 
+    fun getArtworks(page: Int, limit: Int): Flow<SearchResultsEntity>
 }

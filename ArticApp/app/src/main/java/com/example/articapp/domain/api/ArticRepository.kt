@@ -7,4 +7,6 @@ interface ArticRepository {
 
     fun searchArtworks(query: String): Flow<SearchResultsEntity>
 
+    fun getArtworks(page: Int = 1, limit: Int = 20): Flow<SearchResultsEntity>
+
 }
