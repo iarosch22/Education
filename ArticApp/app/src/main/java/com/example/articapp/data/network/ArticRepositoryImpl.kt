@@ -58,7 +58,7 @@ class ArticRepositoryImpl @Inject constructor(
                             id = it.id,
                             apiLink = it.apiLink,
                             apiModel = it.apiModel,
-                            imageUrl = "${imageUrl}/${it.id}/full/843,/0/default.jpg",
+                            imageUrl = "${imageUrl}/${it.imageId}/full/843,/0/default.jpg",
                             title = it.title,
                             pagination = pagination
                         )

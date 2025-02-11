@@ -39,7 +39,9 @@ data class DataArtworks(
     @SerializedName("ulan_id")
     val ulanId: Any,
     @SerializedName("updated_at")
-    val updatedAt: String
+    val updatedAt: String,
+    @SerializedName("image_id")
+    val imageId: String,
 )
 
 data class Pagination(

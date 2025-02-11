@@ -11,7 +11,7 @@ interface ArticApiService {
     @GET("artworks/search")
     suspend fun searchArtworks(@Query("q") query: String): ArticSearchResponse
 
-    @GET("artists")
+    @GET("artworks")
     suspend fun getArtworks(
         @Query("page") page: Int,
         @Query("limit") limit: Int

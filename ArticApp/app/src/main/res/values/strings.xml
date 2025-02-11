@@ -6,4 +6,5 @@
     <string name="app_error_network">Ошибка с сетью</string>
     <string name="app_error_database">Ничего не найдено</string>
     <string name="app_error_unknown">Неизвестная ошибка. Проверьте запрос</string>
+    <string name="app_artworks_list_title">Произведения искусства</string>
 </resources>

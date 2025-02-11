@@ -63,6 +63,7 @@ dependencies {
     implementation(libs.androidx.navigation.ui.ktx)
     implementation(libs.hilt.android)
     implementation(libs.androidx.constraintlayout)
+    implementation(libs.glide.v4160)
     kapt(libs.hilt.compiler)
 }
 
