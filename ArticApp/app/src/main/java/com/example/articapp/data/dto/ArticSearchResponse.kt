@@ -24,7 +24,9 @@ data class DataSearch(
     val isBoosted: Boolean,
     val thumbnail: Thumbnail,
     val timestamp: String,
-    val title: String
+    val title: String,
+    @SerializedName("image_id")
+    val imageId: String,
 )
 
 data class Thumbnail(
