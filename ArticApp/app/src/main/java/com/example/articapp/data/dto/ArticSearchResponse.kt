@@ -15,15 +15,8 @@ data class ConfigSearch(
 )
 
 data class DataSearch(
-    @SerializedName("api_link")
-    val apiLink: String,
-    @SerializedName("api_model")
-    val apiModel: String,
     val id: Int,
-    @SerializedName("is_boosted")
-    val isBoosted: Boolean,
     val thumbnail: Thumbnail,
-    val timestamp: String,
     val title: String,
     @SerializedName("image_id")
     val imageId: String,

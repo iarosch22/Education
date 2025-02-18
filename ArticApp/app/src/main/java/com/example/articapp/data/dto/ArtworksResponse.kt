@@ -16,30 +16,9 @@ data class ConfigArtworks(
 )
 
 data class DataArtworks(
-    @SerializedName("alt_titles")
-    val altTitles: List<String>,
-    @SerializedName("api_link")
-    val apiLink: String,
-    @SerializedName("api_model")
-    val apiModel: String,
-    @SerializedName("birth_date")
-    val birthDate: Int,
-    @SerializedName("death_date")
-    val deathDate: Int,
     val description: Any,
     val id: Int,
-    @SerializedName("is_artist")
-    val isArtist: Boolean,
-    @SerializedName("sort_title")
-    val sortTitle: String,
-    @SerializedName("source_updated_at")
-    val sourceUpdatedAt: String,
-    val timestamp: String,
     val title: String,
-    @SerializedName("ulan_id")
-    val ulanId: Any,
-    @SerializedName("updated_at")
-    val updatedAt: String,
     @SerializedName("image_id")
     val imageId: String,
 )

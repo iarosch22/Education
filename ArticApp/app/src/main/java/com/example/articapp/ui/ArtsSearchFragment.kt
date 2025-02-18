@@ -49,6 +49,8 @@ class ArtsSearchFragment: Fragment() {
                             getString(R.string.app_error_unknown), Toast.LENGTH_SHORT).show()
                     }
                 }
+
+                else -> {}
             }
         }
 

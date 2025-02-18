@@ -16,8 +16,8 @@ import javax.inject.Inject
 @HiltViewModel
 class ArtsListViewModel @Inject constructor(private val articInteractor: ArticInteractor) : ViewModel() {
 
-    private val stateLiveData = MutableLiveData<ArticState>()
-    fun observe(): LiveData<ArticState> = stateLiveData
+    private val stateLiveData = MutableLiveData<ArticState>(ArticState.Loading)
+    fun observeState(): LiveData<ArticState> = stateLiveData
 
     init {
         getArtworks()

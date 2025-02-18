@@ -19,8 +19,6 @@ class ArtsListFragment: Fragment() {
     private var _binding: FragmentArtslistBinding? = null
     private val binding get() = _binding!!
 
-    private val artworks = mutableListOf<ArtWorkEntity>()
-
     private val adapter by lazy { ArtsListAdapter() }
 
     private val viewModel: ArtsListViewModel by viewModels()
@@ -37,32 +35,38 @@ class ArtsListFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        adapter.artworks = artworks
         binding.rvArtworks.adapter = adapter
 
-        viewModel.observe().observe(viewLifecycleOwner){
+        viewModel.observeState().observe(viewLifecycleOwner){
             when(it) {
                 is ArticState.Content -> {
-                    Log.d("ARTWORKS_CONTENT", it.artworks.first().imageUrl)
                     showContent(it.artworks)
                 }
                 is ArticState.Error -> showMessage()
+                ArticState.Loading -> showLoading()
             }
         }
     }
 
     private fun showContent(foundedArtworks: List<ArtWorkEntity>) {
+        binding.progressBar.visibility = View.GONE
         binding.rvArtworks.visibility = View.VISIBLE
         binding.phMessage.visibility = View.GONE
 
-        artworks.clear()
-        artworks.addAll(foundedArtworks)
+        adapter.submitList(foundedArtworks)
         adapter.notifyDataSetChanged()
     }
 
     private fun showMessage() {
+        binding.progressBar.visibility = View.GONE
         binding.rvArtworks.visibility = View.GONE
         binding.phMessage.visibility = View.VISIBLE
+    }
+
+    private fun showLoading() {
+        binding.progressBar.visibility = View.VISIBLE
+        binding.rvArtworks.visibility = View.GONE
+        binding.phMessage.visibility = View.GONE
     }
 
 }

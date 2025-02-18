@@ -5,8 +5,6 @@ import com.example.articapp.data.dto.Pagination
 
 data class ArtWorkEntity(
     val id: Int,
-    val apiLink: String,
-    val apiModel: String,
     val imageUrl: String,
     val title: String,
     val previewImage: String? = null,

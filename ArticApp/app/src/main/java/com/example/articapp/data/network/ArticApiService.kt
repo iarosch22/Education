@@ -2,7 +2,6 @@ package com.example.articapp.data.network
 
 import com.example.articapp.data.dto.ArticSearchResponse
 import com.example.articapp.data.dto.ArtworksResponse
-import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query
 

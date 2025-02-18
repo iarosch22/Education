@@ -28,21 +28,19 @@ class ArticRepositoryImpl @Inject constructor(
                     val data = data.map {
                         ArtWorkEntity(
                             id = it.id,
-                            apiLink = it.apiLink,
-                            apiModel = it.apiModel,
                             imageUrl = "${imageUrl}/${it}/full/843,/0/default.jpg",
                             title = it.title,
                             previewImage = it.thumbnail.previewImage,
                         )
                     }
-                    emit(SearchResultsEntity(data, null))
+                    emit(SearchResultsEntity(data))
                 }
             }
             400 -> {
-                emit(SearchResultsEntity(null, ErrorType.UNKNOWN_ERROR))
+                emit(SearchResultsEntity(errorType = ErrorType.UNKNOWN_ERROR))
             }
             500 -> {
-                emit(SearchResultsEntity(null, ErrorType.DATABASE_ERROR))
+                emit(SearchResultsEntity(errorType = ErrorType.DATABASE_ERROR))
             }
         }
     }
@@ -56,21 +54,19 @@ class ArticRepositoryImpl @Inject constructor(
                     val data = data.map {
                         ArtWorkEntity(
                             id = it.id,
-                            apiLink = it.apiLink,
-                            apiModel = it.apiModel,
                             imageUrl = "${imageUrl}/${it.imageId}/full/843,/0/default.jpg",
                             title = it.title,
                             pagination = pagination
                         )
                     }
-                    emit(SearchResultsEntity(data, null))
+                    emit(SearchResultsEntity(data))
                 }
             }
             400 -> {
-                emit(SearchResultsEntity(null, ErrorType.UNKNOWN_ERROR))
+                emit(SearchResultsEntity(errorType = ErrorType.UNKNOWN_ERROR))
             }
             500 -> {
-                emit(SearchResultsEntity(null, ErrorType.DATABASE_ERROR))
+                emit(SearchResultsEntity(errorType = ErrorType.DATABASE_ERROR))
             }
         }
     }
