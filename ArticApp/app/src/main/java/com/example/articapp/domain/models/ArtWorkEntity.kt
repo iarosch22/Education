@@ -1,6 +1,5 @@
 package com.example.articapp.domain.models
 
-import android.icu.text.CaseMap.Title
 import com.example.articapp.data.dto.Pagination
 
 data class ArtWorkEntity(

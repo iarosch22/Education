@@ -1,16 +1,16 @@
 package com.example.articapp.data.network
 
 import com.example.articapp.data.NetworkClient
-import com.example.articapp.data.dto.ArticArtworkRequest
-import com.example.articapp.data.dto.ArticSearchRequest
 import com.example.articapp.data.dto.ArticSearchResponse
 import com.example.articapp.data.dto.ArtworksResponse
+import com.example.articapp.data.dto.BaseArticRequest
 import com.example.articapp.domain.api.ArticRepository
 import com.example.articapp.domain.models.ArtWorkEntity
 import com.example.articapp.domain.models.SearchResultsEntity
 import com.example.articapp.utils.ErrorType
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import retrofit2.HttpException
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -20,7 +20,7 @@ class ArticRepositoryImpl @Inject constructor(
 ): ArticRepository {
 
     override fun searchArtworks(query: String): Flow<SearchResultsEntity> = flow {
-        val response = networkClient.doRequest(ArticSearchRequest(query))
+        val response = networkClient.doRequest(BaseArticRequest.ArticSearchRequest(query))
         when(response.resultCode) {
             200 -> {
                 with(response as ArticSearchResponse) {
@@ -46,28 +46,23 @@ class ArticRepositoryImpl @Inject constructor(
     }
 
     override fun getArtworks(page: Int, limit: Int): Flow<SearchResultsEntity> = flow {
-        val response = networkClient.doRequest(ArticArtworkRequest(page, limit))
-        when(response.resultCode) {
-            200 -> {
-                with(response as ArtworksResponse) {
-                    val imageUrl = response.config.imageUrl
-                    val data = data.map {
-                        ArtWorkEntity(
-                            id = it.id,
-                            imageUrl = "${imageUrl}/${it.imageId}/full/843,/0/default.jpg",
-                            title = it.title,
-                            pagination = pagination
-                        )
-                    }
-                    emit(SearchResultsEntity(data))
+        try {
+            val response = networkClient.doRequest(BaseArticRequest.ArticArtworkRequest(page, limit))
+            with(response as ArtworksResponse) {
+                val imageUrl = response.config.imageUrl
+                val data = data.map {
+                    ArtWorkEntity(
+                        id = it.id,
+                        imageUrl = "${imageUrl}/${it.imageId}/full/843,/0/default.jpg",
+                        title = it.title,
+                        pagination = pagination
+                    )
                 }
+                emit(SearchResultsEntity(data))
             }
-            400 -> {
-                emit(SearchResultsEntity(errorType = ErrorType.UNKNOWN_ERROR))
-            }
-            500 -> {
-                emit(SearchResultsEntity(errorType = ErrorType.DATABASE_ERROR))
-            }
+        } catch (e: HttpException) {
+            emit(SearchResultsEntity(errorType = ErrorType.UNKNOWN_ERROR, errorCode = e.code().toString()))
         }
+
     }
 }

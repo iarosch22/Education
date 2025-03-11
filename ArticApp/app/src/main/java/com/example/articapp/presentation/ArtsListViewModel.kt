@@ -29,21 +29,32 @@ class ArtsListViewModel @Inject constructor(private val articInteractor: ArticIn
                 articInteractor
                     .getArtworks()
                     .collect{ searchResults ->
-                        processResult(searchResults.artWorks, searchResults.errorType)
+                        processResult(
+                            searchResults.artWorks,
+                            searchResults.errorType,
+                            searchResults.errorCode
+                        )
                     }
             } catch (e: Throwable) {
-                processResult(null, ErrorType.UNKNOWN_ERROR)
+                processResult(null, ErrorType.UNKNOWN_ERROR, "400")
             }
         }
     }
 
-    private fun processResult(foundedArtworks: List<ArtWorkEntity>?, error: ErrorType?) {
+    private fun processResult(
+        foundedArtworks: List<ArtWorkEntity>?,
+        error: ErrorType?,
+        errorCode: String
+    ) {
         val artworks = mutableListOf<ArtWorkEntity>()
 
         if (foundedArtworks != null) artworks.addAll(foundedArtworks)
 
         when {
-            error != null -> renderState(ArticState.Error(error))
+            error != null -> renderState(ArticState.Error(
+                errorType = error,
+                errorCode = errorCode
+            ))
             else -> renderState(ArticState.Content(artworks = artworks))
         }
     }

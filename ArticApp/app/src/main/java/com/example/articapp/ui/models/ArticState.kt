@@ -7,7 +7,7 @@ sealed interface ArticState {
 
     data object Loading: ArticState
 
-    data class Error(val errorType: ErrorType): ArticState
+    data class Error(val errorType: ErrorType, val errorCode: String): ArticState
 
     data class Content(val artworks: List<ArtWorkEntity>): ArticState
 
