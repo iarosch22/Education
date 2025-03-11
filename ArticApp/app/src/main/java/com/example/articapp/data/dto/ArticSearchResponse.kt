@@ -3,30 +3,23 @@ package com.example.articapp.data.dto
 import com.google.gson.annotations.SerializedName
 
 data class ArticSearchResponse (
-    val config: Config,
-    val data: List<Data>,
+    val config: ConfigSearch,
+    val data: List<DataSearch>,
 ): Response()
 
-data class Config(
+data class ConfigSearch(
     @SerializedName("iiif_url")
     val imageUrl: String,
     @SerializedName("website_url")
     val websiteUrl: String
 )
 
-data class Data(
-    @SerializedName("_score")
-    val score: Double,
-    @SerializedName("api_link")
-    val apiLink: String,
-    @SerializedName("api_model")
-    val apiModel: String,
+data class DataSearch(
     val id: Int,
-    @SerializedName("is_boosted")
-    val isBoosted: Boolean,
     val thumbnail: Thumbnail,
-    val timestamp: String,
-    val title: String
+    val title: String,
+    @SerializedName("image_id")
+    val imageId: String,
 )
 
 data class Thumbnail(

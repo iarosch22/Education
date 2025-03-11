@@ -3,19 +3,21 @@ package com.example.articapp.domain.impl
 import com.example.articapp.domain.api.ArticInteractor
 import com.example.articapp.domain.api.ArticRepository
 import com.example.articapp.domain.models.SearchResultsEntity
-import com.example.articapp.data.models.Resource
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class ArticInteractorImpl(private val repository: ArticRepository): ArticInteractor {
+@Singleton
+class ArticInteractorImpl @Inject constructor(
+    private val repository: ArticRepository
+): ArticInteractor {
 
     override fun searchArtworks(query: String): Flow<SearchResultsEntity> {
-        return repository.searchArtworks(query).map { result ->
-            when(result) {
-                is Resource.Error -> SearchResultsEntity(null, result.errorType)
-                is Resource.Success -> SearchResultsEntity(result.data, null)
-            }
-        }
+        return repository.searchArtworks(query)
+    }
+
+    override fun getArtworks(page: Int, limit: Int): Flow<SearchResultsEntity> {
+        return repository.getArtworks(page = page, limit = limit)
     }
 
 }
