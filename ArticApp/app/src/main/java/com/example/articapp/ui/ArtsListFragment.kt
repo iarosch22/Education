@@ -1,12 +1,13 @@
 package com.example.articapp.ui
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.articapp.R
 import com.example.articapp.databinding.FragmentArtslistBinding
 import com.example.articapp.domain.models.ArtWorkEntity
@@ -48,6 +49,21 @@ class ArtsListFragment: Fragment() {
                 ArticState.Loading -> showLoading()
             }
         }
+
+        binding.rvArtworks.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+
+                val layoutManager = binding.rvArtworks.layoutManager as? LinearLayoutManager ?: return
+                val visibleItemCount = layoutManager.childCount
+                val totalItemCount = layoutManager.itemCount
+                val firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition()
+
+                if (firstVisibleItemPosition + visibleItemCount >= totalItemCount - PAGINATION_THRESHOLD) {
+                    viewModel.loadNextPage()
+                }
+            }
+        })
     }
 
     private fun showContent(foundedArtworks: List<ArtWorkEntity>) {
@@ -55,7 +71,10 @@ class ArtsListFragment: Fragment() {
         binding.rvArtworks.visibility = View.VISIBLE
         binding.phMessage.visibility = View.GONE
 
-        adapter.submitList(foundedArtworks)
+        val updatedList = adapter.currentList.toMutableList()
+        updatedList.addAll(foundedArtworks)
+
+        adapter.submitList(updatedList)
     }
 
     private fun showMessage(errorType: ErrorType, errorCode: String) {
@@ -80,6 +99,10 @@ class ArtsListFragment: Fragment() {
         binding.progressBar.visibility = View.VISIBLE
         binding.rvArtworks.visibility = View.GONE
         binding.phMessage.visibility = View.GONE
+    }
+
+    companion object {
+        const val PAGINATION_THRESHOLD = 3
     }
 
 }

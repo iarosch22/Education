@@ -16,11 +16,40 @@ import javax.inject.Inject
 @HiltViewModel
 class ArtsListViewModel @Inject constructor(private val articInteractor: ArticInteractor) : ViewModel() {
 
+    private var page: Int = 1
+
+    private var isLoading = false
+
+    private val artworks = mutableListOf<ArtWorkEntity>()
+
     private val stateLiveData = MutableLiveData<ArticState>(ArticState.Loading)
     fun observeState(): LiveData<ArticState> = stateLiveData
 
     init {
         getArtworks()
+    }
+
+    fun loadNextPage() {
+        if (isLoading) return
+        isLoading = true
+
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                articInteractor
+                    .getArtworks(page = ++page)
+                    .collect{ searchResults ->
+                        processResult(
+                            searchResults.artWorks,
+                            searchResults.errorType,
+                            searchResults.errorCode
+                        )
+                        isLoading = false
+                    }
+            } catch (e: Throwable) {
+                processResult(null, ErrorType.UNKNOWN_ERROR, "400")
+                isLoading = false
+            }
+        }
     }
 
     private fun getArtworks() {
@@ -46,8 +75,6 @@ class ArtsListViewModel @Inject constructor(private val articInteractor: ArticIn
         error: ErrorType?,
         errorCode: String
     ) {
-        val artworks = mutableListOf<ArtWorkEntity>()
-
         if (foundedArtworks != null) artworks.addAll(foundedArtworks)
 
         when {
