@@ -16,7 +16,7 @@ import javax.inject.Inject
 @HiltViewModel
 class ArtsListViewModel @Inject constructor(private val articInteractor: ArticInteractor) : ViewModel() {
 
-    private var page: Int = 1
+    private var page: Int = 0
 
     private var isLoading = false
 
@@ -29,34 +29,11 @@ class ArtsListViewModel @Inject constructor(private val articInteractor: ArticIn
         getArtworks()
     }
 
-    fun loadNextPage() {
-        if (isLoading) return
-        isLoading = true
-
+    fun getArtworks() {
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 articInteractor
-                    .getArtworks(page = ++page)
-                    .collect{ searchResults ->
-                        processResult(
-                            searchResults.artWorks,
-                            searchResults.errorType,
-                            searchResults.errorCode
-                        )
-                        isLoading = false
-                    }
-            } catch (e: Throwable) {
-                processResult(null, ErrorType.UNKNOWN_ERROR, "400")
-                isLoading = false
-            }
-        }
-    }
-
-    private fun getArtworks() {
-        viewModelScope.launch(Dispatchers.IO) {
-            try {
-                articInteractor
-                    .getArtworks()
+                    .getArtworks(++page)
                     .collect{ searchResults ->
                         processResult(
                             searchResults.artWorks,

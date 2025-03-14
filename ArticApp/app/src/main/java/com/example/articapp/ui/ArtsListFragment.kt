@@ -60,7 +60,7 @@ class ArtsListFragment: Fragment() {
                 val firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition()
 
                 if (firstVisibleItemPosition + visibleItemCount >= totalItemCount - PAGINATION_THRESHOLD) {
-                    viewModel.loadNextPage()
+                    viewModel.getArtworks()
                 }
             }
         })
@@ -102,7 +102,7 @@ class ArtsListFragment: Fragment() {
     }
 
     companion object {
-        const val PAGINATION_THRESHOLD = 3
+        const val PAGINATION_THRESHOLD = 5
     }
 
 }
