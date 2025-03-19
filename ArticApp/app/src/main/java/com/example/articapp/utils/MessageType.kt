@@ -1,7 +1,8 @@
 package com.example.articapp.utils
 
-enum class ErrorType {
+enum class MessageType {
     NETWORK_ERROR,
     DATABASE_ERROR,
-    UNKNOWN_ERROR
+    UNKNOWN_ERROR,
+    END_OF_CONTENT
 }

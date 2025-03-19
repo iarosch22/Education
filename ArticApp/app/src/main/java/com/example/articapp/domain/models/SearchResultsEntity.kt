@@ -1,9 +1,9 @@
 package com.example.articapp.domain.models
 
-import com.example.articapp.utils.ErrorType
+import com.example.articapp.utils.MessageType
 
 data class SearchResultsEntity(
     val artWorks: List<ArtWorkEntity>? = null,
-    val errorType: ErrorType? = null,
+    val messageType: MessageType? = null,
     val errorCode: String = ""
 )

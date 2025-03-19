@@ -1,5 +1,6 @@
 package com.example.articapp.presentation
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -7,7 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.articapp.domain.api.ArticInteractor
 import com.example.articapp.domain.models.ArtWorkEntity
 import com.example.articapp.ui.models.ArticState
-import com.example.articapp.utils.ErrorType
+import com.example.articapp.utils.MessageType
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -30,6 +31,9 @@ class ArtsListViewModel @Inject constructor(private val articInteractor: ArticIn
     }
 
     fun getArtworks() {
+        if (isLoading) return
+        isLoading = true
+
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 articInteractor
@@ -37,29 +41,40 @@ class ArtsListViewModel @Inject constructor(private val articInteractor: ArticIn
                     .collect{ searchResults ->
                         processResult(
                             searchResults.artWorks,
-                            searchResults.errorType,
+                            searchResults.messageType,
                             searchResults.errorCode
                         )
+                        isLoading = false
                     }
             } catch (e: Throwable) {
-                processResult(null, ErrorType.UNKNOWN_ERROR, "400")
+                processResult(null, MessageType.UNKNOWN_ERROR, "400")
+                isLoading = false
             }
         }
     }
 
     private fun processResult(
         foundedArtworks: List<ArtWorkEntity>?,
-        error: ErrorType?,
+        error: MessageType?,
         errorCode: String
     ) {
-        if (foundedArtworks != null) artworks.addAll(foundedArtworks)
+        if (foundedArtworks != null) {
+            artworks.addAll(foundedArtworks)
+        }
 
         when {
             error != null -> renderState(ArticState.Error(
-                errorType = error,
+                messageType = error,
                 errorCode = errorCode
             ))
-            else -> renderState(ArticState.Content(artworks = artworks))
+            foundedArtworks!!.isEmpty() && page > 1 -> {
+                renderState(ArticState.Error(
+                    messageType = MessageType.END_OF_CONTENT
+                ))
+            }
+            else -> {
+                renderState(ArticState.Content(artworks = artworks))
+            }
         }
     }
 

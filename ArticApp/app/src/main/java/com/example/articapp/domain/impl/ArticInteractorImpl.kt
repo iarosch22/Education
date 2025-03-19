@@ -4,6 +4,7 @@ import com.example.articapp.domain.api.ArticInteractor
 import com.example.articapp.domain.api.ArticRepository
 import com.example.articapp.domain.models.SearchResultsEntity
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOf
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -17,7 +18,15 @@ class ArticInteractorImpl @Inject constructor(
     }
 
     override fun getArtworks(page: Int, limit: Int): Flow<SearchResultsEntity> {
-        return repository.getArtworks(page = page, limit = limit)
+        return if (page > 3) {
+            flowOf(
+                SearchResultsEntity(
+                    artWorks = emptyList()
+                )
+            )
+        } else {
+            repository.getArtworks(page = page, limit = limit)
+        }
     }
 
 }

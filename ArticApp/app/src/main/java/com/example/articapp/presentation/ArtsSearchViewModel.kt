@@ -3,14 +3,11 @@ package com.example.articapp.presentation
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.initializer
-import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.articapp.domain.api.ArticInteractor
 import com.example.articapp.domain.models.ArtWorkEntity
 import com.example.articapp.ui.models.ArticState
-import com.example.articapp.utils.ErrorType
+import com.example.articapp.utils.MessageType
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -31,12 +28,12 @@ class ArtsSearchViewModel @Inject constructor(private val articInteractor: Artic
                         .collect { searchResults ->
                             processResult(
                                 searchResults.artWorks,
-                                searchResults.errorType,
+                                searchResults.messageType,
                                 searchResults.errorCode
                             )
                         }
                 } catch (e: Throwable) {
-                    processResult(null, ErrorType.UNKNOWN_ERROR, "400")
+                    processResult(null, MessageType.UNKNOWN_ERROR, "400")
                 }
             }
         }
@@ -44,7 +41,7 @@ class ArtsSearchViewModel @Inject constructor(private val articInteractor: Artic
 
     private fun processResult(
         foundArtworks: List<ArtWorkEntity>?,
-        errorType: ErrorType?,
+        messageType: MessageType?,
         errorCode: String
     ) {
         val artworks = mutableListOf<ArtWorkEntity>()
@@ -52,8 +49,8 @@ class ArtsSearchViewModel @Inject constructor(private val articInteractor: Artic
         if (foundArtworks != null) artworks.addAll(foundArtworks)
 
         when {
-            errorType != null -> renderState(ArticState.Error(
-                errorType = errorType,
+            messageType != null -> renderState(ArticState.Error(
+                messageType = messageType,
                 errorCode = errorCode
             ))
             else -> renderState(ArticState.Content(artworks = artworks))

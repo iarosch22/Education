@@ -7,7 +7,7 @@ import com.example.articapp.data.dto.BaseArticRequest
 import com.example.articapp.domain.api.ArticRepository
 import com.example.articapp.domain.models.ArtWorkEntity
 import com.example.articapp.domain.models.SearchResultsEntity
-import com.example.articapp.utils.ErrorType
+import com.example.articapp.utils.MessageType
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import retrofit2.HttpException
@@ -37,10 +37,10 @@ class ArticRepositoryImpl @Inject constructor(
                 }
             }
             400 -> {
-                emit(SearchResultsEntity(errorType = ErrorType.UNKNOWN_ERROR))
+                emit(SearchResultsEntity(messageType = MessageType.UNKNOWN_ERROR))
             }
             500 -> {
-                emit(SearchResultsEntity(errorType = ErrorType.DATABASE_ERROR))
+                emit(SearchResultsEntity(messageType = MessageType.DATABASE_ERROR))
             }
         }
     }
@@ -61,7 +61,7 @@ class ArticRepositoryImpl @Inject constructor(
                 emit(SearchResultsEntity(data))
             }
         } catch (e: HttpException) {
-            emit(SearchResultsEntity(errorType = ErrorType.UNKNOWN_ERROR, errorCode = e.code().toString()))
+            emit(SearchResultsEntity(messageType = MessageType.UNKNOWN_ERROR, errorCode = e.code().toString()))
         }
 
     }
