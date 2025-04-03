@@ -17,7 +17,9 @@ import javax.inject.Inject
 @HiltViewModel
 class ArtsListViewModel @Inject constructor(private val articInteractor: ArticInteractor) : ViewModel() {
 
-    private var page: Int = 0
+
+    //Для теста
+    private var page: Int = 6395
 
     private var isLoading = false
 
@@ -42,12 +44,17 @@ class ArtsListViewModel @Inject constructor(private val articInteractor: ArticIn
                         processResult(
                             searchResults.artWorks,
                             searchResults.messageType,
-                            searchResults.errorCode
+                            searchResults.errorCode,
+                            searchResults.totalPages
                         )
                         isLoading = false
                     }
             } catch (e: Throwable) {
-                processResult(null, MessageType.UNKNOWN_ERROR, "400")
+                processResult(
+                    foundedArtworks = null,
+                    error = MessageType.UNKNOWN_ERROR,
+                    totalPages = null
+                )
                 isLoading = false
             }
         }
@@ -56,8 +63,12 @@ class ArtsListViewModel @Inject constructor(private val articInteractor: ArticIn
     private fun processResult(
         foundedArtworks: List<ArtWorkEntity>?,
         error: MessageType?,
-        errorCode: String
+        errorCode: String = "",
+        totalPages: Int?
     ) {
+
+        Log.d("TOTAL_PAGE", totalPages.toString())
+
         if (foundedArtworks != null) {
             artworks.addAll(foundedArtworks)
         }
@@ -67,7 +78,7 @@ class ArtsListViewModel @Inject constructor(private val articInteractor: ArticIn
                 messageType = error,
                 errorCode = errorCode
             ))
-            foundedArtworks!!.isEmpty() && page > 1 -> {
+            page > totalPages!! -> {
                 renderState(ArticState.Error(
                     messageType = MessageType.END_OF_CONTENT
                 ))

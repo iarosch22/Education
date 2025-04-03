@@ -18,15 +18,7 @@ class ArticInteractorImpl @Inject constructor(
     }
 
     override fun getArtworks(page: Int, limit: Int): Flow<SearchResultsEntity> {
-        return if (page > 3) {
-            flowOf(
-                SearchResultsEntity(
-                    artWorks = emptyList()
-                )
-            )
-        } else {
-            repository.getArtworks(page = page, limit = limit)
-        }
+        return repository.getArtworks(page = page, limit = limit)
     }
 
 }

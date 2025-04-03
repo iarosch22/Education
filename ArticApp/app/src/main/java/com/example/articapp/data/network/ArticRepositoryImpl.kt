@@ -11,6 +11,7 @@ import com.example.articapp.utils.MessageType
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import retrofit2.HttpException
+import java.net.HttpURLConnection
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -22,7 +23,7 @@ class ArticRepositoryImpl @Inject constructor(
     override fun searchArtworks(query: String): Flow<SearchResultsEntity> = flow {
         val response = networkClient.doRequest(BaseArticRequest.ArticSearchRequest(query))
         when(response.resultCode) {
-            200 -> {
+            HttpURLConnection.HTTP_OK -> {
                 with(response as ArticSearchResponse) {
                     val imageUrl = response.config.imageUrl
                     val data = data.map {
@@ -36,10 +37,10 @@ class ArticRepositoryImpl @Inject constructor(
                     emit(SearchResultsEntity(data))
                 }
             }
-            400 -> {
+            HttpURLConnection.HTTP_BAD_REQUEST -> {
                 emit(SearchResultsEntity(messageType = MessageType.UNKNOWN_ERROR))
             }
-            500 -> {
+            HttpURLConnection.HTTP_INTERNAL_ERROR -> {
                 emit(SearchResultsEntity(messageType = MessageType.DATABASE_ERROR))
             }
         }
@@ -58,10 +59,13 @@ class ArticRepositoryImpl @Inject constructor(
                         pagination = pagination
                     )
                 }
-                emit(SearchResultsEntity(data))
+                emit(SearchResultsEntity(artWorks = data, totalPages = pagination.totalPages))
             }
         } catch (e: HttpException) {
-            emit(SearchResultsEntity(messageType = MessageType.UNKNOWN_ERROR, errorCode = e.code().toString()))
+            emit(SearchResultsEntity(
+                messageType = MessageType.UNKNOWN_ERROR,
+                errorCode = e.code().toString()
+            ))
         }
 
     }
