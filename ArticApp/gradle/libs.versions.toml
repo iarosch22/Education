@@ -14,9 +14,10 @@ material = "1.12.0"
 activity = "1.10.0"
 constraintlayout = "2.2.0"
 glide = "4.16.0"
-navigationFragmentKtx = "2.8.7"
+navigationFragmentKtx = "2.8.9"
 retrofit = "2.9.0"
 hilt = "2.51.1"
+roomRuntime = "2.6.1"
 
 [libraries]
 adapterdelegates4-kotlin-dsl = { module = "com.hannesdorfmann:adapterdelegates4-kotlin-dsl", version.ref = "adapterdelegates4KotlinDsl" }
@@ -25,6 +26,9 @@ androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = 
 androidx-fragment-ktx = { module = "androidx.fragment:fragment-ktx", version.ref = "fragmentKtx" }
 androidx-navigation-fragment-ktx = { module = "androidx.navigation:navigation-fragment-ktx", version.ref = "navigationFragmentKtx" }
 androidx-navigation-ui-ktx = { module = "androidx.navigation:navigation-ui-ktx", version.ref = "navigationFragmentKtx" }
+androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "roomRuntime" }
+androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "roomRuntime" }
+androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "roomRuntime" }
 compiler = { module = "com.github.bumptech.glide:compiler", version.ref = "glide" }
 glide = { module = "com.github.bumptech.glide:glide", version.ref = "glide" }
 glide-v4160 = { module = "com.github.bumptech.glide:glide", version.ref = "githubGlide" }
