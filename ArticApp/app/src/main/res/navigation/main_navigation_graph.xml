@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/mainFragment"
-        android:name="com.example.articapp.ui.MainFragment"
+        android:name="com.example.articapp.presentation.ui.MainFragment"
         android:label="fragment_main"
         tools:layout="@layout/fragment_main" >
         <action
@@ -19,12 +19,12 @@
     </fragment>
     <fragment
         android:id="@+id/artsListFragment"
-        android:name="com.example.articapp.ui.ArtsListFragment"
+        android:name="com.example.articapp.presentation.ui.ArtsListFragment"
         android:label="fragment_artslist"
         tools:layout="@layout/fragment_artslist" />
     <fragment
         android:id="@+id/artsSearchFragment"
-        android:name="com.example.articapp.ui.ArtsSearchFragment"
+        android:name="com.example.articapp.presentation.ui.ArtsSearchFragment"
         android:label="fragment_artssearch"
         tools:layout="@layout/fragment_artssearch" />
 </navigation>

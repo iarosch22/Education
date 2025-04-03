@@ -6,7 +6,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/main_fragment"
-    tools:context=".ui.MainFragment">
+    tools:context=".presentation.ui.MainFragment">
 
     <Button
         android:id="@+id/btnArtsList"

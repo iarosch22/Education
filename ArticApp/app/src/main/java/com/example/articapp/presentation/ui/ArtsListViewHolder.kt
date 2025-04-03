@@ -1,4 +1,4 @@
-package com.example.articapp.ui
+package com.example.articapp.presentation.ui
 
 import android.view.View
 import android.widget.ImageView

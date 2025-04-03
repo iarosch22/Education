@@ -7,7 +7,7 @@ import com.example.articapp.data.dto.BaseArticRequest
 import com.example.articapp.domain.api.ArticRepository
 import com.example.articapp.domain.models.ArtWorkEntity
 import com.example.articapp.domain.models.SearchResultsEntity
-import com.example.articapp.utils.MessageType
+import com.example.articapp.presentation.MessageType
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import retrofit2.HttpException

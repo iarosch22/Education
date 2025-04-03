@@ -6,8 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.articapp.domain.api.ArticInteractor
 import com.example.articapp.domain.models.ArtWorkEntity
-import com.example.articapp.ui.models.ArticState
-import com.example.articapp.utils.MessageType
+import com.example.articapp.presentation.ui.models.ArticState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -49,7 +48,8 @@ class ArtsSearchViewModel @Inject constructor(private val articInteractor: Artic
         if (foundArtworks != null) artworks.addAll(foundArtworks)
 
         when {
-            messageType != null -> renderState(ArticState.Error(
+            messageType != null -> renderState(
+                ArticState.Error(
                 messageType = messageType,
                 errorCode = errorCode
             ))

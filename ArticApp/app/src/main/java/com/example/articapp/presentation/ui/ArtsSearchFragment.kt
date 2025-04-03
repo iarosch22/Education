@@ -1,4 +1,4 @@
-package com.example.articapp.ui
+package com.example.articapp.presentation.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,8 +10,8 @@ import androidx.fragment.app.viewModels
 import com.example.articapp.R
 import com.example.articapp.databinding.FragmentArtssearchBinding
 import com.example.articapp.presentation.ArtsSearchViewModel
-import com.example.articapp.ui.models.ArticState
-import com.example.articapp.utils.MessageType
+import com.example.articapp.presentation.ui.models.ArticState
+import com.example.articapp.presentation.MessageType
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

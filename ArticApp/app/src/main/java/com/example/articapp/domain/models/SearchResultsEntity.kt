@@ -1,6 +1,6 @@
 package com.example.articapp.domain.models
 
-import com.example.articapp.utils.MessageType
+import com.example.articapp.presentation.MessageType
 
 data class SearchResultsEntity(
     val artWorks: List<ArtWorkEntity>? = null,

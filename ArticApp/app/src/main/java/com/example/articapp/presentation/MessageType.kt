@@ -1,4 +1,4 @@
-package com.example.articapp.utils
+package com.example.articapp.presentation
 
 enum class MessageType {
     NETWORK_ERROR,

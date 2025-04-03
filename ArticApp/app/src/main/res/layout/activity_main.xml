@@ -7,6 +7,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:name="androidx.navigation.fragment.NavHostFragment"
-    tools:context=".ui.MainActivity"
+    tools:context=".presentation.ui.MainActivity"
     app:navGraph="@navigation/main_navigation_graph"
     app:defaultNavHost="true" />

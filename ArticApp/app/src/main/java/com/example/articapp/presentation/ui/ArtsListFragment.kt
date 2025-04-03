@@ -1,7 +1,6 @@
-package com.example.articapp.ui
+package com.example.articapp.presentation.ui
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,8 +12,8 @@ import com.example.articapp.R
 import com.example.articapp.databinding.FragmentArtslistBinding
 import com.example.articapp.domain.models.ArtWorkEntity
 import com.example.articapp.presentation.ArtsListViewModel
-import com.example.articapp.ui.models.ArticState
-import com.example.articapp.utils.MessageType
+import com.example.articapp.presentation.ui.models.ArticState
+import com.example.articapp.presentation.MessageType
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

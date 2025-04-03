@@ -7,8 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.articapp.domain.api.ArticInteractor
 import com.example.articapp.domain.models.ArtWorkEntity
-import com.example.articapp.ui.models.ArticState
-import com.example.articapp.utils.MessageType
+import com.example.articapp.presentation.ui.models.ArticState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -74,12 +73,14 @@ class ArtsListViewModel @Inject constructor(private val articInteractor: ArticIn
         }
 
         when {
-            error != null -> renderState(ArticState.Error(
+            error != null -> renderState(
+                ArticState.Error(
                 messageType = error,
                 errorCode = errorCode
             ))
             page > totalPages!! -> {
-                renderState(ArticState.Error(
+                renderState(
+                    ArticState.Error(
                     messageType = MessageType.END_OF_CONTENT
                 ))
             }

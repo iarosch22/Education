@@ -1,7 +1,7 @@
-package com.example.articapp.ui.models
+package com.example.articapp.presentation.ui.models
 
 import com.example.articapp.domain.models.ArtWorkEntity
-import com.example.articapp.utils.MessageType
+import com.example.articapp.presentation.MessageType
 
 sealed interface ArticState {
 
