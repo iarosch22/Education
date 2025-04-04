@@ -1,6 +1,7 @@
 package com.example.articapp.data.network
 
 import com.example.articapp.data.NetworkClient
+import com.example.articapp.data.db.AppDatabase
 import com.example.articapp.data.dto.ArticSearchResponse
 import com.example.articapp.data.dto.ArtworksResponse
 import com.example.articapp.data.dto.BaseArticRequest
@@ -17,7 +18,8 @@ import javax.inject.Singleton
 
 @Singleton
 class ArticRepositoryImpl @Inject constructor(
-    private val networkClient: NetworkClient
+    private val networkClient: NetworkClient,
+    private val appDatabase: AppDatabase
 ): ArticRepository {
 
     override fun searchArtworks(query: String): Flow<SearchResultsEntity> = flow {
@@ -38,7 +40,10 @@ class ArticRepositoryImpl @Inject constructor(
                 }
             }
             HttpURLConnection.HTTP_BAD_REQUEST -> {
-                emit(SearchResultsEntity(messageType = MessageType.UNKNOWN_ERROR))
+                emit(SearchResultsEntity(
+                    messageType = MessageType.UNKNOWN_ERROR,
+                    errorCode = HttpURLConnection.HTTP_BAD_REQUEST.toString()
+                ))
             }
             HttpURLConnection.HTTP_INTERNAL_ERROR -> {
                 emit(SearchResultsEntity(messageType = MessageType.DATABASE_ERROR))
@@ -46,7 +51,7 @@ class ArticRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun getArtworks(page: Int, limit: Int): Flow<SearchResultsEntity> = flow {
+    override fun getArtworksFromApi(page: Int, limit: Int): Flow<SearchResultsEntity> = flow {
         try {
             val response = networkClient.doRequest(BaseArticRequest.ArticArtworkRequest(page, limit))
             with(response as ArtworksResponse) {
@@ -69,4 +74,5 @@ class ArticRepositoryImpl @Inject constructor(
         }
 
     }
+
 }

@@ -3,9 +3,6 @@ package com.example.articapp.di
 import android.content.Context
 import androidx.room.Room
 import com.example.articapp.data.db.AppDatabase
-import com.example.articapp.data.network.ArticRepositoryImpl
-import com.example.articapp.domain.api.ArticRepository
-import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -15,12 +12,17 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-abstract class RepositoryModule {
+object DatabaseModule {
 
-    @Binds
+    @Provides
     @Singleton
-    abstract fun bindArticRepository(
-        articRepository: ArticRepositoryImpl
-    ): ArticRepository
+    fun providesAppDatabase(@ApplicationContext context: Context): AppDatabase {
+        return Room.databaseBuilder(
+            context,
+            AppDatabase::class.java,
+            "database.db"
+        )
+            .build()
+    }
 
 }

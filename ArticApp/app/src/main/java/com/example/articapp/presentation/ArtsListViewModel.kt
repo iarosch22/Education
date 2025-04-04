@@ -51,7 +51,7 @@ class ArtsListViewModel @Inject constructor(private val articInteractor: ArticIn
             } catch (e: Throwable) {
                 processResult(
                     foundedArtworks = null,
-                    error = MessageType.UNKNOWN_ERROR,
+                    error = MessageType.NETWORK_ERROR,
                     totalPages = null
                 )
                 isLoading = false
