@@ -3,6 +3,7 @@ package com.example.articapp.data.network
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
+import android.util.Log
 import com.example.articapp.data.NetworkClient
 import com.example.articapp.data.dto.BaseArticRequest
 import com.example.articapp.data.dto.Response

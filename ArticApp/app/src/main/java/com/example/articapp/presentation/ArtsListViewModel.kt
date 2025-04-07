@@ -49,9 +49,10 @@ class ArtsListViewModel @Inject constructor(private val articInteractor: ArticIn
                         isLoading = false
                     }
             } catch (e: Throwable) {
+                val artworks = articInteractor.getArtworksFromDb()
                 processResult(
-                    foundedArtworks = null,
-                    error = MessageType.NETWORK_ERROR,
+                    foundedArtworks = artworks,
+                    error = null,
                     totalPages = null
                 )
                 isLoading = false
@@ -78,7 +79,7 @@ class ArtsListViewModel @Inject constructor(private val articInteractor: ArticIn
                 messageType = error,
                 errorCode = errorCode
             ))
-            page > totalPages!! -> {
+            totalPages != null && page > totalPages -> {
                 renderState(
                     ArticState.Error(
                     messageType = MessageType.END_OF_CONTENT

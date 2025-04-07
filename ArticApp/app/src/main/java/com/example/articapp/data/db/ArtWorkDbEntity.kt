@@ -8,5 +8,6 @@ data class ArtWorkDbEntity(
     @PrimaryKey
     val id: Int,
     val imageUrl: String,
-    val title: String
+    val title: String,
+
 )

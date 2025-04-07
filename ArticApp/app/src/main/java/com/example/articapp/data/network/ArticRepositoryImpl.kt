@@ -1,7 +1,9 @@
 package com.example.articapp.data.network
 
+import android.util.Log
 import com.example.articapp.data.NetworkClient
 import com.example.articapp.data.db.AppDatabase
+import com.example.articapp.data.db.ArtWorkDbEntity
 import com.example.articapp.data.dto.ArticSearchResponse
 import com.example.articapp.data.dto.ArtworksResponse
 import com.example.articapp.data.dto.BaseArticRequest
@@ -64,6 +66,7 @@ class ArticRepositoryImpl @Inject constructor(
                         pagination = pagination
                     )
                 }
+                saveArtworksInDb(data)
                 emit(SearchResultsEntity(artWorks = data, totalPages = pagination.totalPages))
             }
         } catch (e: HttpException) {
@@ -73,6 +76,28 @@ class ArticRepositoryImpl @Inject constructor(
             ))
         }
 
+    }
+
+    override suspend fun saveArtworksInDb(artworks: List<ArtWorkEntity>) {
+        val artworksForDb = artworks.map { artwork ->
+            ArtWorkDbEntity(
+                id = artwork.id,
+                imageUrl = artwork.imageUrl,
+                title = artwork.title
+            )
+        }
+
+        appDatabase.artworksDao().insertArtworks(artworksForDb)
+    }
+
+    override suspend fun getArtworksFromDb(): List<ArtWorkEntity> {
+        return appDatabase.artworksDao().getArtworks().map {
+            ArtWorkEntity(
+                id = it.id,
+                imageUrl = it.imageUrl,
+                title = it.title,
+            )
+        }
     }
 
 }
