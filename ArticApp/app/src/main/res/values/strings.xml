@@ -5,6 +5,7 @@
     <string name="app_btn_search">Найти</string>
     <string name="app_error_network">Ошибка с сетью</string>
     <string name="app_error_database">Ничего не найдено</string>
-    <string name="app_error_unknown">Неизвестная ошибка. Код ошибки - </string>
+    <string name="app_end_of_content">Больше картин нет</string>
+    <string name="app_error_unknown">Неизвестная ошибка. Данные об ошибке - </string>
     <string name="app_artworks_list_title">Произведения искусства</string>
 </resources>

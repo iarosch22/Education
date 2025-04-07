@@ -65,6 +65,9 @@ dependencies {
     implementation(libs.androidx.constraintlayout)
     implementation(libs.glide.v4160)
     kapt(libs.hilt.compiler)
+    implementation(libs.androidx.room.runtime)
+    kapt(libs.androidx.room.compiler)
+    implementation(libs.androidx.room.ktx)
 }
 
 kapt {

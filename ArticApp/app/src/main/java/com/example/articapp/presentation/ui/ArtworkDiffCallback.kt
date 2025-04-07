@@ -1,4 +1,4 @@
-package com.example.articapp.ui
+package com.example.articapp.presentation.ui
 
 import androidx.recyclerview.widget.DiffUtil
 import com.example.articapp.domain.models.ArtWorkEntity

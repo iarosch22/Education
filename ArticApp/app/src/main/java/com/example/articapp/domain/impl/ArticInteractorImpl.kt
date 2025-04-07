@@ -2,6 +2,7 @@ package com.example.articapp.domain.impl
 
 import com.example.articapp.domain.api.ArticInteractor
 import com.example.articapp.domain.api.ArticRepository
+import com.example.articapp.domain.models.ArtWorkEntity
 import com.example.articapp.domain.models.SearchResultsEntity
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
@@ -17,7 +18,11 @@ class ArticInteractorImpl @Inject constructor(
     }
 
     override fun getArtworks(page: Int, limit: Int): Flow<SearchResultsEntity> {
-        return repository.getArtworks(page = page, limit = limit)
+        return repository.getArtworksFromApi(page = page, limit = limit)
+    }
+
+    override suspend fun getArtworksFromDb(): List<ArtWorkEntity> {
+        return repository.getArtworksFromDb()
     }
 
 }

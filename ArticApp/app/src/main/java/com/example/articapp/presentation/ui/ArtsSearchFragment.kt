@@ -1,4 +1,4 @@
-package com.example.articapp.ui
+package com.example.articapp.presentation.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,8 +10,8 @@ import androidx.fragment.app.viewModels
 import com.example.articapp.R
 import com.example.articapp.databinding.FragmentArtssearchBinding
 import com.example.articapp.presentation.ArtsSearchViewModel
-import com.example.articapp.ui.models.ArticState
-import com.example.articapp.utils.ErrorType
+import com.example.articapp.presentation.ui.models.ArticState
+import com.example.articapp.presentation.MessageType
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -40,13 +40,15 @@ class ArtsSearchFragment: Fragment() {
                     Toast.makeText(requireContext(), "${it.artworks.first()}", Toast.LENGTH_SHORT).show()
                 }
                 is ArticState.Error -> {
-                    when(it.errorType) {
-                        ErrorType.NETWORK_ERROR -> Toast.makeText(requireContext(),
+                    when(it.messageType) {
+                        MessageType.NETWORK_ERROR -> Toast.makeText(requireContext(),
                             getString(R.string.app_error_network), Toast.LENGTH_SHORT).show()
-                        ErrorType.DATABASE_ERROR -> Toast.makeText(requireContext(),
+                        MessageType.DATABASE_ERROR -> Toast.makeText(requireContext(),
                             getString(R.string.app_error_database), Toast.LENGTH_SHORT).show()
-                        ErrorType.UNKNOWN_ERROR -> Toast.makeText(requireContext(),
+                        MessageType.UNKNOWN_ERROR -> Toast.makeText(requireContext(),
                             getString(R.string.app_error_unknown), Toast.LENGTH_SHORT).show()
+                        MessageType.END_OF_CONTENT -> Toast.makeText(requireContext(),
+                            getString(R.string.app_end_of_content), Toast.LENGTH_SHORT).show()
                     }
                 }
 

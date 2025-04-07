@@ -1,28 +1,33 @@
 package com.example.articapp.data.network
 
+import android.util.Log
 import com.example.articapp.data.NetworkClient
+import com.example.articapp.data.db.AppDatabase
+import com.example.articapp.data.db.ArtWorkDbEntity
 import com.example.articapp.data.dto.ArticSearchResponse
 import com.example.articapp.data.dto.ArtworksResponse
 import com.example.articapp.data.dto.BaseArticRequest
 import com.example.articapp.domain.api.ArticRepository
 import com.example.articapp.domain.models.ArtWorkEntity
 import com.example.articapp.domain.models.SearchResultsEntity
-import com.example.articapp.utils.ErrorType
+import com.example.articapp.presentation.MessageType
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import retrofit2.HttpException
+import java.net.HttpURLConnection
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class ArticRepositoryImpl @Inject constructor(
-    private val networkClient: NetworkClient
+    private val networkClient: NetworkClient,
+    private val appDatabase: AppDatabase
 ): ArticRepository {
 
     override fun searchArtworks(query: String): Flow<SearchResultsEntity> = flow {
         val response = networkClient.doRequest(BaseArticRequest.ArticSearchRequest(query))
         when(response.resultCode) {
-            200 -> {
+            HttpURLConnection.HTTP_OK -> {
                 with(response as ArticSearchResponse) {
                     val imageUrl = response.config.imageUrl
                     val data = data.map {
@@ -36,16 +41,19 @@ class ArticRepositoryImpl @Inject constructor(
                     emit(SearchResultsEntity(data))
                 }
             }
-            400 -> {
-                emit(SearchResultsEntity(errorType = ErrorType.UNKNOWN_ERROR))
+            HttpURLConnection.HTTP_BAD_REQUEST -> {
+                emit(SearchResultsEntity(
+                    messageType = MessageType.UNKNOWN_ERROR,
+                    errorCode = HttpURLConnection.HTTP_BAD_REQUEST.toString()
+                ))
             }
-            500 -> {
-                emit(SearchResultsEntity(errorType = ErrorType.DATABASE_ERROR))
+            HttpURLConnection.HTTP_INTERNAL_ERROR -> {
+                emit(SearchResultsEntity(messageType = MessageType.DATABASE_ERROR))
             }
         }
     }
 
-    override fun getArtworks(page: Int, limit: Int): Flow<SearchResultsEntity> = flow {
+    override fun getArtworksFromApi(page: Int, limit: Int): Flow<SearchResultsEntity> = flow {
         try {
             val response = networkClient.doRequest(BaseArticRequest.ArticArtworkRequest(page, limit))
             with(response as ArtworksResponse) {
@@ -58,11 +66,38 @@ class ArticRepositoryImpl @Inject constructor(
                         pagination = pagination
                     )
                 }
-                emit(SearchResultsEntity(data))
+                saveArtworksInDb(data)
+                emit(SearchResultsEntity(artWorks = data, totalPages = pagination.totalPages))
             }
         } catch (e: HttpException) {
-            emit(SearchResultsEntity(errorType = ErrorType.UNKNOWN_ERROR, errorCode = e.code().toString()))
+            emit(SearchResultsEntity(
+                messageType = MessageType.UNKNOWN_ERROR,
+                errorCode = e.code().toString()
+            ))
         }
 
     }
+
+    override suspend fun saveArtworksInDb(artworks: List<ArtWorkEntity>) {
+        val artworksForDb = artworks.map { artwork ->
+            ArtWorkDbEntity(
+                id = artwork.id,
+                imageUrl = artwork.imageUrl,
+                title = artwork.title
+            )
+        }
+
+        appDatabase.artworksDao().insertArtworks(artworksForDb)
+    }
+
+    override suspend fun getArtworksFromDb(): List<ArtWorkEntity> {
+        return appDatabase.artworksDao().getArtworks().map {
+            ArtWorkEntity(
+                id = it.id,
+                imageUrl = it.imageUrl,
+                title = it.title,
+            )
+        }
+    }
+
 }

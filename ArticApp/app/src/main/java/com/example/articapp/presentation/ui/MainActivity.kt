@@ -1,4 +1,4 @@
-package com.example.articapp.ui
+package com.example.articapp.presentation.ui
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
